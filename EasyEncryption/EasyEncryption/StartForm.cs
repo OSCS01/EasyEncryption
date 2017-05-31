@@ -26,5 +26,19 @@ namespace EasyEncryption
         {
 
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(Path.Text))
+            {
+                SetupForm setup = new SetupForm();
+                setup.Show();
+            }
+            else
+            {
+                LibraryForm library = new LibraryForm();
+                library.Show();
+            }
+        }
     }
 }
