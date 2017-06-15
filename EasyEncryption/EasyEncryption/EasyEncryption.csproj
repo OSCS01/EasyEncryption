@@ -45,6 +45,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Home.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Home.Designer.cs">
+      <DependentUpon>Home.cs</DependentUpon>
+    </Compile>
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -57,40 +63,16 @@
     <Compile Include="RegisterForm.Designer.cs">
       <DependentUpon>RegisterForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="SetupForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SetupForm.Designer.cs">
-      <DependentUpon>SetupForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="LibraryForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="LibraryForm.Designer.cs">
-      <DependentUpon>LibraryForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="StartForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="StartForm.Designer.cs">
-      <DependentUpon>StartForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="LibraryForm.resx">
-      <DependentUpon>LibraryForm.cs</DependentUpon>
+    <EmbeddedResource Include="Home.resx">
+      <DependentUpon>Home.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RegisterForm.resx">
       <DependentUpon>RegisterForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SetupForm.resx">
-      <DependentUpon>SetupForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="StartForm.resx">
-      <DependentUpon>StartForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
