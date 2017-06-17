@@ -30,6 +30,9 @@
         {
             this.AddFiles = new System.Windows.Forms.Button();
             this.selectedFiles = new System.Windows.Forms.ListView();
+            this.SelectedFilename = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.SelectedSize = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.SelectedPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.transferbtn = new System.Windows.Forms.Button();
             this.contactsbtn = new System.Windows.Forms.Button();
             this.groupsbtn = new System.Windows.Forms.Button();
@@ -38,9 +41,9 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.myFiles = new System.Windows.Forms.ListView();
-            this.Filename = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Size = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Path = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.myFilename = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.mySize = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.myGroup = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -59,15 +62,30 @@
             // selectedFiles
             // 
             this.selectedFiles.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.Filename,
-            this.Size,
-            this.Path});
+            this.SelectedFilename,
+            this.SelectedSize,
+            this.SelectedPath});
             this.selectedFiles.Location = new System.Drawing.Point(-8, -11);
             this.selectedFiles.Name = "selectedFiles";
             this.selectedFiles.Size = new System.Drawing.Size(941, 531);
             this.selectedFiles.TabIndex = 1;
             this.selectedFiles.UseCompatibleStateImageBehavior = false;
             this.selectedFiles.View = System.Windows.Forms.View.Details;
+            // 
+            // SelectedFilename
+            // 
+            this.SelectedFilename.Text = "Filename";
+            this.SelectedFilename.Width = 155;
+            // 
+            // SelectedSize
+            // 
+            this.SelectedSize.Text = "Size";
+            this.SelectedSize.Width = 155;
+            // 
+            // SelectedPath
+            // 
+            this.SelectedPath.Text = "Path";
+            this.SelectedPath.Width = 627;
             // 
             // transferbtn
             // 
@@ -140,26 +158,31 @@
             // 
             // myFiles
             // 
+            this.myFiles.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.myFilename,
+            this.mySize,
+            this.myGroup});
             this.myFiles.Location = new System.Drawing.Point(-8, -11);
             this.myFiles.Name = "myFiles";
             this.myFiles.Size = new System.Drawing.Size(941, 531);
             this.myFiles.TabIndex = 2;
             this.myFiles.UseCompatibleStateImageBehavior = false;
+            this.myFiles.View = System.Windows.Forms.View.Details;
             // 
-            // Filename
+            // myFilename
             // 
-            this.Filename.Text = "Filename";
-            this.Filename.Width = 155;
+            this.myFilename.Text = "Filename";
+            this.myFilename.Width = 150;
             // 
-            // Size
+            // mySize
             // 
-            this.Size.Text = "Size";
-            this.Size.Width = 155;
+            this.mySize.Text = "Size";
+            this.mySize.Width = 150;
             // 
-            // Path
+            // myGroup
             // 
-            this.Path.Text = "Path";
-            this.Path.Width = 627;
+            this.myGroup.Text = "Group";
+            this.myGroup.Width = 705;
             // 
             // Home
             // 
@@ -193,8 +216,11 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.ListView myFiles;
-        private System.Windows.Forms.ColumnHeader Filename;
-        private System.Windows.Forms.ColumnHeader Size;
-        private System.Windows.Forms.ColumnHeader Path;
+        private System.Windows.Forms.ColumnHeader SelectedFilename;
+        private System.Windows.Forms.ColumnHeader SelectedSize;
+        private System.Windows.Forms.ColumnHeader SelectedPath;
+        private System.Windows.Forms.ColumnHeader myFilename;
+        private System.Windows.Forms.ColumnHeader mySize;
+        private System.Windows.Forms.ColumnHeader myGroup;
     }
 }

@@ -20,9 +20,15 @@ namespace EasyEncryption
             InitializeComponent();
             tabPage1.Controls.Add(selectedFiles);
             tabPage2.Controls.Add(myFiles);
+            getMyFiles("username");
         }
 
-        private void addItems(System.IO.FileInfo fi)
+        private void getMyFiles(string username)
+        {
+            //Retrieve database info from server regarding my files
+        }
+
+        private void addItems(FileInfo fi)
         {
             string[] row = { fi.Name, "" + fi.Length, fi.FullName };
             ListViewItem lvi = new ListViewItem(row);
