@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Security.Cryptography;
 using System.IO;
+using System.Net.Sockets;
 
 namespace EasyEncryption
 {
@@ -77,6 +78,30 @@ namespace EasyEncryption
                     }
                 }
             }
+        }
+
+        private void groupsbtn_Click(object sender, EventArgs e)
+        {
+            string ipadd = "fe80::84a1:3136:baa0:6c41%14";
+            string cmdtext = "SELECT * FROM [User]";
+            TcpClient client = new TcpClient(ipadd, 8080);
+            NetworkStream stream = client.GetStream();
+            StreamWriter sw = new StreamWriter(stream);
+            sw.WriteLine("Retrieve");
+            sw.WriteLine(cmdtext);
+            sw.Flush();
+            /*
+            TcpListener listener = new TcpListener(IPAddress.IPv6Any, 8081);
+            listener.Start();
+            while(true)
+            {
+                client = listener.AcceptTcpClient();
+                stream = client.GetStream();
+                StreamReader reader = new StreamReader(stream);
+                string username = reader.ReadLine();
+                myFilename.Text = username;
+            }
+            */
         }
     }
 }
