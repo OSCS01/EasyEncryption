@@ -114,6 +114,7 @@
             this.groupsbtn.TabIndex = 5;
             this.groupsbtn.Text = "Groups";
             this.groupsbtn.UseVisualStyleBackColor = true;
+            this.groupsbtn.Click += new System.EventHandler(this.groupsbtn_Click);
             // 
             // chatbtn
             // 
