@@ -10,12 +10,14 @@ using System.Windows.Forms;
 using System.Security.Cryptography;
 using System.IO;
 using System.Net.Sockets;
+using System.Xml;
 
 namespace EasyEncryption
 {
     public partial class Home : Form
     {
         const string encryptpath = @"C:\Users\Daryl\Desktop\EncryptedTest\";
+        const string username = "Adam";
         public Home()
         {
             InitializeComponent();
@@ -74,7 +76,7 @@ namespace EasyEncryption
                             if (bytesread == 0)
                                 break;
                             cryptostream.Write(buffer, 0, bytesread);
-                        }     
+                        }
                     }
                 }
             }
@@ -83,13 +85,30 @@ namespace EasyEncryption
         private void groupsbtn_Click(object sender, EventArgs e)
         {
             string ipadd = "fe80::84a1:3136:baa0:6c41%14";
-            string cmdtext = "SELECT * FROM [User]";
             TcpClient client = new TcpClient(ipadd, 8080);
             NetworkStream stream = client.GetStream();
             StreamWriter sw = new StreamWriter(stream);
             sw.WriteLine("Retrieve");
-            sw.WriteLine(cmdtext);
+            sw.WriteLine(username);
             sw.Flush();
+
+            StreamReader sr = new StreamReader(stream);
+            XmlReader xr = XmlReader.Create(sr);
+            string result = sr.ReadToEnd();
+            DataTable dt = new DataTable();
+            dt.ReadXml(xr);
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                DataRow dr = dt.Rows[i];
+                ListViewItem listitem = new ListViewItem(dr["Filename"].ToString());
+                listitem.SubItems.Add(dr["Size"].ToString());
+                listitem.SubItems.Add(dr["SharedGroups"].ToString());
+                listitem.SubItems.Add(dr["Owner"].ToString());
+                myFiles.Items.Add(listitem);
+            }
+
+
+
             /*
             TcpListener listener = new TcpListener(IPAddress.IPv6Any, 8081);
             listener.Start();
@@ -105,5 +124,5 @@ namespace EasyEncryption
         }
     }
 }
-    
+
 

@@ -44,6 +44,7 @@
             this.myFilename = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.mySize = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.myGroup = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.myOwner = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -162,7 +163,8 @@
             this.myFiles.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.myFilename,
             this.mySize,
-            this.myGroup});
+            this.myGroup,
+            this.myOwner});
             this.myFiles.Location = new System.Drawing.Point(-8, -11);
             this.myFiles.Name = "myFiles";
             this.myFiles.Size = new System.Drawing.Size(941, 531);
@@ -183,7 +185,12 @@
             // myGroup
             // 
             this.myGroup.Text = "Group";
-            this.myGroup.Width = 705;
+            this.myGroup.Width = 150;
+            // 
+            // myOwner
+            // 
+            this.myOwner.Text = "Owner";
+            this.myOwner.Width = 487;
             // 
             // Home
             // 
@@ -223,5 +230,6 @@
         private System.Windows.Forms.ColumnHeader myFilename;
         private System.Windows.Forms.ColumnHeader mySize;
         private System.Windows.Forms.ColumnHeader myGroup;
+        private System.Windows.Forms.ColumnHeader myOwner;
     }
 }
