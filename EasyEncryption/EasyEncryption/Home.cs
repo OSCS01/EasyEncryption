@@ -20,6 +20,7 @@ namespace EasyEncryption
         const string encryptpath = @"C:\Users\Daryl\Desktop\EncryptedTest\";
         const string username = "Adam";
         const string base64key = "E1N+Jz9sd5DbpXFMCe1eE+U1ZKrhtf7mm9PCeUV+ps4=";
+        const string base64IV = "4wW7sdztKzhBtuJF34A+qw==";
         public Home()
         {
             InitializeComponent();
@@ -99,6 +100,7 @@ namespace EasyEncryption
                             //rng.GetBytes(key);
                             key = Convert.FromBase64String(base64key);
                             AES.Key = key;
+                            AES.IV = Convert.FromBase64String(base64IV);
                             string filepath = item.SubItems[2].Text;
                             FileInfo fi = new FileInfo(filepath);
                             string fileext = fi.Extension;
@@ -126,8 +128,6 @@ namespace EasyEncryption
 
                         }
                         string basekey = Convert.ToBase64String(key);
-                        //ListViewItem item2 = new ListViewItem(basekey);
-                        //selectedFiles.Items.Add(item2);
                     }
                 }
             }
@@ -183,6 +183,7 @@ namespace EasyEncryption
                         //fsKey.Read(key, 0, key.Length);
                         key = Convert.FromBase64String(base64key);
                         AES.Key = key;
+                        AES.IV = Convert.FromBase64String(base64IV);
                         FileStream fsEncrypted = new FileStream(encryptpath + fi.Name, FileMode.Open, FileAccess.Read);
                         FileStream fsDecrypted = new FileStream(decryptpath + fi.Name, FileMode.Create, FileAccess.Write);
                         ICryptoTransform decryptor = AES.CreateDecryptor();
