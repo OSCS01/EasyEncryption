@@ -33,7 +33,7 @@
             this.SelectedFilename = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SelectedSize = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SelectedPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.transferbtn = new System.Windows.Forms.Button();
+            this.UploadBtn = new System.Windows.Forms.Button();
             this.contactsbtn = new System.Windows.Forms.Button();
             this.groupsbtn = new System.Windows.Forms.Button();
             this.chatbtn = new System.Windows.Forms.Button();
@@ -45,6 +45,9 @@
             this.mySize = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.myGroup = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.myOwner = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Refreshbtn = new System.Windows.Forms.Button();
+            this.DownloadBtn = new System.Windows.Forms.Button();
+            this.clearBtn = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -88,15 +91,15 @@
             this.SelectedPath.Text = "Path";
             this.SelectedPath.Width = 627;
             // 
-            // transferbtn
+            // UploadBtn
             // 
-            this.transferbtn.Location = new System.Drawing.Point(879, 830);
-            this.transferbtn.Name = "transferbtn";
-            this.transferbtn.Size = new System.Drawing.Size(156, 57);
-            this.transferbtn.TabIndex = 3;
-            this.transferbtn.Text = "Transfer";
-            this.transferbtn.UseVisualStyleBackColor = true;
-            this.transferbtn.Click += new System.EventHandler(this.transferbtn_Click);
+            this.UploadBtn.Location = new System.Drawing.Point(879, 830);
+            this.UploadBtn.Name = "UploadBtn";
+            this.UploadBtn.Size = new System.Drawing.Size(156, 57);
+            this.UploadBtn.TabIndex = 3;
+            this.UploadBtn.Text = "Upload";
+            this.UploadBtn.UseVisualStyleBackColor = true;
+            this.UploadBtn.Click += new System.EventHandler(this.uploadbtn_Click);
             // 
             // contactsbtn
             // 
@@ -135,6 +138,7 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(941, 559);
             this.tabControl1.TabIndex = 7;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // tabPage1
             // 
@@ -192,16 +196,50 @@
             this.myOwner.Text = "Owner";
             this.myOwner.Width = 487;
             // 
+            // Refreshbtn
+            // 
+            this.Refreshbtn.Location = new System.Drawing.Point(1052, 246);
+            this.Refreshbtn.Name = "Refreshbtn";
+            this.Refreshbtn.Size = new System.Drawing.Size(109, 44);
+            this.Refreshbtn.TabIndex = 8;
+            this.Refreshbtn.Text = "Refresh";
+            this.Refreshbtn.UseVisualStyleBackColor = true;
+            this.Refreshbtn.Visible = false;
+            this.Refreshbtn.Click += new System.EventHandler(this.Refreshbtn_Click);
+            // 
+            // DownloadBtn
+            // 
+            this.DownloadBtn.Location = new System.Drawing.Point(690, 830);
+            this.DownloadBtn.Name = "DownloadBtn";
+            this.DownloadBtn.Size = new System.Drawing.Size(156, 57);
+            this.DownloadBtn.TabIndex = 9;
+            this.DownloadBtn.Text = "Download";
+            this.DownloadBtn.UseVisualStyleBackColor = true;
+            this.DownloadBtn.Click += new System.EventHandler(this.DownloadBtn_Click);
+            // 
+            // clearBtn
+            // 
+            this.clearBtn.Location = new System.Drawing.Point(1052, 296);
+            this.clearBtn.Name = "clearBtn";
+            this.clearBtn.Size = new System.Drawing.Size(109, 44);
+            this.clearBtn.TabIndex = 10;
+            this.clearBtn.Text = "Clear";
+            this.clearBtn.UseVisualStyleBackColor = true;
+            this.clearBtn.Click += new System.EventHandler(this.clearBtn_Click);
+            // 
             // Home
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1173, 919);
+            this.Controls.Add(this.clearBtn);
+            this.Controls.Add(this.DownloadBtn);
+            this.Controls.Add(this.Refreshbtn);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.chatbtn);
             this.Controls.Add(this.groupsbtn);
             this.Controls.Add(this.contactsbtn);
-            this.Controls.Add(this.transferbtn);
+            this.Controls.Add(this.UploadBtn);
             this.Controls.Add(this.AddFiles);
             this.Name = "Home";
             this.Text = "Form1";
@@ -216,7 +254,7 @@
 
         private System.Windows.Forms.Button AddFiles;
         private System.Windows.Forms.ListView selectedFiles;
-        private System.Windows.Forms.Button transferbtn;
+        private System.Windows.Forms.Button UploadBtn;
         private System.Windows.Forms.Button contactsbtn;
         private System.Windows.Forms.Button groupsbtn;
         private System.Windows.Forms.Button chatbtn;
@@ -231,5 +269,8 @@
         private System.Windows.Forms.ColumnHeader mySize;
         private System.Windows.Forms.ColumnHeader myGroup;
         private System.Windows.Forms.ColumnHeader myOwner;
+        private System.Windows.Forms.Button Refreshbtn;
+        private System.Windows.Forms.Button DownloadBtn;
+        private System.Windows.Forms.Button clearBtn;
     }
 }
