@@ -170,6 +170,7 @@
             this.myGroup,
             this.myOwner});
             this.myFiles.Location = new System.Drawing.Point(-8, -11);
+            this.myFiles.MultiSelect = false;
             this.myFiles.Name = "myFiles";
             this.myFiles.Size = new System.Drawing.Size(941, 531);
             this.myFiles.TabIndex = 2;

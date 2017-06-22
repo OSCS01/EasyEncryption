@@ -59,6 +59,9 @@ namespace EasyEncryption
                     listitem.SubItems.Add(dr["Owner"].ToString());
                     myFiles.Items.Add(listitem);
                 }
+                xr.Close();
+                sr.Close();
+                sw.Close();
             }
             catch (SocketException e)
             {
@@ -105,12 +108,10 @@ namespace EasyEncryption
                             FileInfo fi = new FileInfo(filepath);
                             string fileext = fi.Extension;
                             string filename = fi.Name.Substring(0, fi.Name.Length - fileext.Length);
-                            //string filename = fi.Name;
-                            //string hashedfilename = Convert.ToBase64String(sha1.ComputeHash(Encoding.ASCII.GetBytes(filename)));
-                            //SelectedFilename.Text = hashedfilename;
+                            string hashedfilename = Convert.ToBase64String(sha1.ComputeHash(Encoding.ASCII.GetBytes(filename)));
 
                             FileStream fsInput = new FileStream(filepath, FileMode.Open, FileAccess.Read);
-                            FileStream fsEncrypted = new FileStream(encryptpath + fi.Name, FileMode.Create, FileAccess.Write);
+                            FileStream fsEncrypted = new FileStream(encryptpath + hashedfilename + ".ee", FileMode.Create, FileAccess.Write);
                             ICryptoTransform encryptor = AES.CreateEncryptor();
                             CryptoStream cryptostream = new CryptoStream(fsEncrypted, encryptor, CryptoStreamMode.Write);
                             int bytesread;
@@ -123,11 +124,9 @@ namespace EasyEncryption
                                 cryptostream.Write(buffer, 0, bytesread);
                             }
                             cryptostream.Close();
-                            //FileStream fsKey = new FileStream(encryptpath + filename + ".txt", FileMode.Create, FileAccess.Write);
-                            //fsKey.Write(key, 0, key.Length);
+                            
 
                         }
-                        string basekey = Convert.ToBase64String(key);
                     }
                 }
             }
@@ -163,8 +162,17 @@ namespace EasyEncryption
 
         private void DownloadBtn_Click(object sender, EventArgs e)
         {
-            //Download files from server
-
+            /*
+            string ipadd = "fe80::84a1:3136:baa0:6c41%14";
+            TcpClient client = new TcpClient(ipadd, 8080);
+            NetworkStream stream = client.GetStream();
+            StreamWriter sw = new StreamWriter(stream);
+            sw.WriteLine("Download");
+            sw.WriteLine(username);
+            */
+            
+            //Download files from server 
+            
             using (RijndaelManaged AES = new RijndaelManaged())
             {
                 AES.BlockSize = 128;
@@ -179,12 +187,11 @@ namespace EasyEncryption
                         FileInfo fi = new FileInfo(filepath);
                         string fileext = fi.Extension;
                         string filename = fi.Name.Substring(0, fi.Name.Length - fileext.Length);
-                        //FileStream fsKey = new FileStream(encryptpath + filename + ".txt", FileMode.Open, FileAccess.Read);
-                        //fsKey.Read(key, 0, key.Length);
+                        string hashedfilename = Convert.ToBase64String(sha1.ComputeHash(Encoding.ASCII.GetBytes(filename)));
                         key = Convert.FromBase64String(base64key);
                         AES.Key = key;
                         AES.IV = Convert.FromBase64String(base64IV);
-                        FileStream fsEncrypted = new FileStream(encryptpath + fi.Name, FileMode.Open, FileAccess.Read);
+                        FileStream fsEncrypted = new FileStream(encryptpath + hashedfilename + ".ee", FileMode.Open, FileAccess.Read);
                         FileStream fsDecrypted = new FileStream(decryptpath + fi.Name, FileMode.Create, FileAccess.Write);
                         ICryptoTransform decryptor = AES.CreateDecryptor();
                         CryptoStream cryptostream = new CryptoStream(fsDecrypted, decryptor, CryptoStreamMode.Write);
@@ -201,9 +208,10 @@ namespace EasyEncryption
                     }
                 }
             }
-
+            
 
             //Access Logs
+
 
         }
 
