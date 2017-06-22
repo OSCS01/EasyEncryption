@@ -88,6 +88,7 @@ namespace EasyEncryption
 
         private void uploadbtn_Click(object sender, EventArgs e)
         {
+            string ipadd = "fe80::84a1:3136:baa0:6c41%14";
             byte[] key = new byte[32];
             using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider())
             {
@@ -100,6 +101,9 @@ namespace EasyEncryption
                         AES.Mode = CipherMode.CBC;
                         foreach (ListViewItem item in selectedFiles.Items)
                         {
+                            TcpClient client = new TcpClient(ipadd, 8080);
+                            NetworkStream stream = client.GetStream();
+                            StreamWriter sw = new StreamWriter(stream);
                             //rng.GetBytes(key);
                             key = Convert.FromBase64String(base64key);
                             AES.Key = key;
@@ -124,8 +128,15 @@ namespace EasyEncryption
                                 cryptostream.Write(buffer, 0, bytesread);
                             }
                             cryptostream.Close();
-                            
-
+                            sw.WriteLine("Upload");
+                            sw.WriteLine(hashedfilename);
+                            sw.WriteLine(fi.Length);
+                            sw.WriteLine(username);
+                            sw.WriteLine("Personal");
+                            sw.WriteLine(filename);
+                            sw.WriteLine(fileext);
+                            sw.Flush();
+                            sw.Close();
                         }
                     }
                 }
