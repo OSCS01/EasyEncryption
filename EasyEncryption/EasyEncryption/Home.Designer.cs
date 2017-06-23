@@ -112,7 +112,7 @@
             // 
             // groupsbtn
             // 
-            this.groupsbtn.Location = new System.Drawing.Point(626, 95);
+            this.groupsbtn.Location = new System.Drawing.Point(646, 95);
             this.groupsbtn.Name = "groupsbtn";
             this.groupsbtn.Size = new System.Drawing.Size(128, 44);
             this.groupsbtn.TabIndex = 5;

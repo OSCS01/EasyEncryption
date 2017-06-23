@@ -99,44 +99,55 @@ namespace EasyEncryption
                         AES.KeySize = 256;
                         AES.BlockSize = 128;
                         AES.Mode = CipherMode.CBC;
-                        foreach (ListViewItem item in selectedFiles.Items)
+                        string pubkey = getPubKey();
+                        using (RSACryptoServiceProvider rsa = new RSACryptoServiceProvider())
                         {
-                            TcpClient client = new TcpClient(ipadd, 8080);
-                            NetworkStream stream = client.GetStream();
-                            StreamWriter sw = new StreamWriter(stream);
-                            //rng.GetBytes(key);
-                            key = Convert.FromBase64String(base64key);
-                            AES.Key = key;
-                            AES.IV = Convert.FromBase64String(base64IV);
-                            string filepath = item.SubItems[2].Text;
-                            FileInfo fi = new FileInfo(filepath);
-                            string fileext = fi.Extension;
-                            string filename = fi.Name.Substring(0, fi.Name.Length - fileext.Length);
-                            string hashedfilename = Convert.ToBase64String(sha1.ComputeHash(Encoding.ASCII.GetBytes(filename)));
-
-                            FileStream fsInput = new FileStream(filepath, FileMode.Open, FileAccess.Read);
-                            FileStream fsEncrypted = new FileStream(encryptpath + hashedfilename + ".ee", FileMode.Create, FileAccess.Write);
-                            ICryptoTransform encryptor = AES.CreateEncryptor();
-                            CryptoStream cryptostream = new CryptoStream(fsEncrypted, encryptor, CryptoStreamMode.Write);
-                            int bytesread;
-                            byte[] buffer = new byte[16384];
-                            while (true)
+                            rsa.FromXmlString(pubkey);
+                            foreach (ListViewItem item in selectedFiles.Items)
                             {
-                                bytesread = fsInput.Read(buffer, 0, 16384);
-                                if (bytesread == 0)
-                                    break;
-                                cryptostream.Write(buffer, 0, bytesread);
+                                using (TcpClient client = new TcpClient(ipadd, 8080))
+                                {
+                                    using (NetworkStream stream = client.GetStream())
+                                    {
+                                        using (StreamWriter sw = new StreamWriter(stream))
+                                        {
+                                            rng.GetBytes(key);
+                                            AES.Key = key;
+                                            AES.GenerateIV();
+                                            string filepath = item.SubItems[2].Text;
+                                            FileInfo fi = new FileInfo(filepath);
+                                            string fileext = fi.Extension;
+                                            string filename = fi.Name.Substring(0, fi.Name.Length - fileext.Length);
+                                            string hashedfilename = Convert.ToBase64String(sha1.ComputeHash(Encoding.ASCII.GetBytes(filename)));
+
+                                            FileStream fsInput = new FileStream(filepath, FileMode.Open, FileAccess.Read);
+                                            FileStream fsEncrypted = new FileStream(encryptpath + hashedfilename + ".ee", FileMode.Create, FileAccess.Write);
+                                            ICryptoTransform encryptor = AES.CreateEncryptor();
+                                            CryptoStream cryptostream = new CryptoStream(fsEncrypted, encryptor, CryptoStreamMode.Write);
+                                            int bytesread;
+                                            byte[] buffer = new byte[16384];
+                                            while (true)
+                                            {
+                                                bytesread = fsInput.Read(buffer, 0, 16384);
+                                                if (bytesread == 0)
+                                                    break;
+                                                cryptostream.Write(buffer, 0, bytesread);
+                                            }
+                                            string encryptedkey = Convert.ToBase64String(rsa.Encrypt(key, false));
+                                            cryptostream.Close();
+                                            sw.WriteLine("Upload");
+                                            sw.WriteLine(hashedfilename);
+                                            sw.WriteLine(fi.Length);
+                                            sw.WriteLine(username);
+                                            sw.WriteLine("Personal");
+                                            sw.WriteLine(filename);
+                                            sw.WriteLine(fileext);
+                                            sw.WriteLine(encryptedkey);
+                                            sw.WriteLine(Convert.ToBase64String(AES.IV));
+                                        }
+                                    }
+                                }
                             }
-                            cryptostream.Close();
-                            sw.WriteLine("Upload");
-                            sw.WriteLine(hashedfilename);
-                            sw.WriteLine(fi.Length);
-                            sw.WriteLine(username);
-                            sw.WriteLine("Personal");
-                            sw.WriteLine(filename);
-                            sw.WriteLine(fileext);
-                            sw.Flush();
-                            sw.Close();
                         }
                     }
                 }
@@ -151,6 +162,26 @@ namespace EasyEncryption
         private void Refreshbtn_Click(object sender, EventArgs e)
         {
             getMyFiles(username);
+        }
+
+        private string getPubKey()
+        {
+            string ipadd = "fe80::84a1:3136:baa0:6c41%14";
+            using (TcpClient client = new TcpClient(ipadd, 8080))
+            {
+                using (NetworkStream stream = client.GetStream())
+                {
+                    using (StreamWriter sw = new StreamWriter(stream))
+                    {
+                        sw.WriteLine("Pubkey");
+                        sw.Flush();
+                        using (StreamReader sr = new StreamReader(stream))
+                        {
+                            return sr.ReadToEnd();
+                        }
+                    }
+                }
+            }
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
@@ -181,9 +212,9 @@ namespace EasyEncryption
             sw.WriteLine("Download");
             sw.WriteLine(username);
             */
-            
+
             //Download files from server 
-            
+
             using (RijndaelManaged AES = new RijndaelManaged())
             {
                 AES.BlockSize = 128;
@@ -219,7 +250,7 @@ namespace EasyEncryption
                     }
                 }
             }
-            
+
 
             //Access Logs
 
