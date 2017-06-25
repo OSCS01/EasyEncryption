@@ -111,9 +111,9 @@ namespace EasyEncryption
                                     {
                                         using (StreamWriter sw = new StreamWriter(stream))
                                         {
-                                            rng.GetBytes(key);
-                                            AES.Key = key;
-                                            AES.GenerateIV();
+                                            //rng.GetBytes(key);
+                                            AES.Key = Convert.FromBase64String(base64key);
+                                            AES.IV = Convert.FromBase64String(base64IV);
                                             string filepath = item.SubItems[2].Text;
                                             FileInfo fi = new FileInfo(filepath);
                                             string fileext = fi.Extension;
@@ -144,6 +144,7 @@ namespace EasyEncryption
                                             sw.WriteLine(fileext);
                                             sw.WriteLine(encryptedkey);
                                             sw.WriteLine(Convert.ToBase64String(AES.IV));
+                                            //Start sending file here
                                         }
                                     }
                                 }
@@ -204,22 +205,41 @@ namespace EasyEncryption
 
         private void DownloadBtn_Click(object sender, EventArgs e)
         {
-            /*
+            
+            List<string> files = new List<string>();
+            List<string> owners = new List<string>();
+            foreach (ListViewItem item in myFiles.Items)
+            {
+                if (item.Checked)
+                {
+                    files.Add(item.SubItems[0].Text);
+                    owners.Add(item.SubItems[3].Text);
+                }
+                
+            }
+            
             string ipadd = "fe80::84a1:3136:baa0:6c41%14";
             TcpClient client = new TcpClient(ipadd, 8080);
             NetworkStream stream = client.GetStream();
             StreamWriter sw = new StreamWriter(stream);
             sw.WriteLine("Download");
             sw.WriteLine(username);
-            */
+            sw.WriteLine(files.Count);
+            for (int i = 0; i < files.Count; i++)
+            {
+                sw.WriteLine(files[i]);
+                sw.WriteLine(owners[i]);
+            }
+            sw.Flush();
 
             //Download files from server 
-
+            /* add this into server
             using (RijndaelManaged AES = new RijndaelManaged())
             {
                 AES.BlockSize = 128;
                 AES.KeySize = 256;
                 AES.Mode = CipherMode.CBC;
+                
                 using (SHA1Managed sha1 = new SHA1Managed())
                 {
                     byte[] key = new byte[32];
@@ -248,8 +268,8 @@ namespace EasyEncryption
                         }
                         cryptostream.Close();
                     }
-                }
-            }
+                    }
+                }*/
 
 
             //Access Logs

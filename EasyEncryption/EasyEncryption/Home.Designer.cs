@@ -164,6 +164,7 @@
             // 
             // myFiles
             // 
+            this.myFiles.CheckBoxes = true;
             this.myFiles.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.myFilename,
             this.mySize,
