@@ -284,6 +284,25 @@ namespace EasyEncryption
         {
             selectedFiles.Items.Clear();
         }
+
+        private void deleteBtn_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in myFiles.Items)
+            {
+                if (item.Checked)
+                {
+                    string ipadd = "fe80::84a1:3136:baa0:6c41%14";
+                    TcpClient client = new TcpClient(ipadd, 8080);
+                    NetworkStream stream = client.GetStream();
+                    StreamWriter sw = new StreamWriter(stream);
+                    sw.WriteLine("Delete");
+                    sw.WriteLine(item.SubItems[0].Text);    //filename
+                    sw.WriteLine(item.SubItems[2].Text);    //group
+                    sw.WriteLine(item.SubItems[3].Text);    //owner
+                    myFiles.Items.Remove(item);
+                }
+            }
+        }
     }
 }
 
