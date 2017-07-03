@@ -292,14 +292,36 @@ namespace EasyEncryption
                 if (item.Checked)
                 {
                     string ipadd = "fe80::84a1:3136:baa0:6c41%14";
-                    TcpClient client = new TcpClient(ipadd, 8080);
-                    NetworkStream stream = client.GetStream();
-                    StreamWriter sw = new StreamWriter(stream);
-                    sw.WriteLine("Delete");
-                    sw.WriteLine(item.SubItems[0].Text);    //filename
-                    sw.WriteLine(item.SubItems[2].Text);    //group
-                    sw.WriteLine(item.SubItems[3].Text);    //owner
-                    myFiles.Items.Remove(item);
+                    try
+                    {
+                        using (TcpClient client = new TcpClient(ipadd, 8080))
+                        {
+                            using (NetworkStream stream = client.GetStream())
+                            {
+                                using (StreamWriter sw = new StreamWriter(stream))
+                                {
+                                    sw.WriteLine(item.SubItems[0].Text);
+                                    sw.WriteLine(item.SubItems[2].Text);
+                                    sw.WriteLine(item.SubItems[3].Text);
+                                }
+                            }
+                        }
+                        myFiles.Items.Remove(item);
+                    }
+                    catch (Exception ex)
+                    {
+                        string message = "An error has occured!";
+                        string caption = "Error";
+                        MessageBoxButtons button = MessageBoxButtons.OK;
+                        DialogResult result;
+
+                        result = MessageBox.Show(message, caption, button, MessageBoxIcon.Error);
+
+                        if(result == DialogResult.OK)
+                        {
+                            //Do nothing.
+                        }
+                    }
                 }
             }
         }
