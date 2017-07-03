@@ -145,6 +145,9 @@ namespace EasyEncryption
                                             sw.WriteLine(encryptedkey);
                                             sw.WriteLine(Convert.ToBase64String(AES.IV));
                                             //Start sending file here
+                                            byte[] data = File.ReadAllBytes(encryptpath + hashedfilename + ".ee");
+                                            stream.Write(data, 0, data.Length);
+                                            stream.Flush();
                                         }
                                     }
                                 }
