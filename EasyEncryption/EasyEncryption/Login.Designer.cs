@@ -31,9 +31,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.LoginField = new System.Windows.Forms.TextBox();
+            this.PassField = new System.Windows.Forms.TextBox();
+            this.loginvalidate = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -65,38 +65,40 @@
             this.label3.TabIndex = 2;
             this.label3.Text = "Password";
             // 
-            // textBox1
+            // LoginField
             // 
-            this.textBox1.Location = new System.Drawing.Point(341, 163);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 22);
-            this.textBox1.TabIndex = 3;
+            this.LoginField.Location = new System.Drawing.Point(341, 163);
+            this.LoginField.Name = "LoginField";
+            this.LoginField.Size = new System.Drawing.Size(100, 22);
+            this.LoginField.TabIndex = 3;
+            this.LoginField.TextChanged += new System.EventHandler(this.LoginField_TextChanged);
             // 
-            // textBox2
+            // PassField
             // 
-            this.textBox2.Location = new System.Drawing.Point(341, 198);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 22);
-            this.textBox2.TabIndex = 4;
+            this.PassField.Location = new System.Drawing.Point(341, 198);
+            this.PassField.Name = "PassField";
+            this.PassField.Size = new System.Drawing.Size(100, 22);
+            this.PassField.TabIndex = 4;
+            this.PassField.TextChanged += new System.EventHandler(this.PassField_TextChanged);
             // 
-            // button1
+            // loginvalidate
             // 
-            this.button1.Location = new System.Drawing.Point(333, 253);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 30);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "Log in";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.loginvalidate.Location = new System.Drawing.Point(333, 253);
+            this.loginvalidate.Name = "loginvalidate";
+            this.loginvalidate.Size = new System.Drawing.Size(75, 30);
+            this.loginvalidate.TabIndex = 5;
+            this.loginvalidate.Text = "Log in";
+            this.loginvalidate.UseVisualStyleBackColor = true;
+            this.loginvalidate.Click += new System.EventHandler(this.loginvalidate_Click);
             // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(782, 566);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.loginvalidate);
+            this.Controls.Add(this.PassField);
+            this.Controls.Add(this.LoginField);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -112,8 +114,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox LoginField;
+        private System.Windows.Forms.TextBox PassField;
+        private System.Windows.Forms.Button loginvalidate;
     }
 }

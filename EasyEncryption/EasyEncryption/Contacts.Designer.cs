@@ -50,6 +50,7 @@
             this.Controls.Add(this.label1);
             this.Name = "Contacts";
             this.Text = "Contacts";
+            this.Load += new System.EventHandler(this.Contacts_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

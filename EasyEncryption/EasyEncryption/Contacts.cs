@@ -12,12 +12,18 @@ namespace EasyEncryption
 {
     public partial class Contacts : Form
     {
+        const string constring = @"Data Source=CEPHAS\SQLEXPRESS;Initial Catalog = EasyEncryption;Integrated Security = True";
         public Contacts()
         {
             InitializeComponent();
         }
 
         private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Contacts_Load(object sender, EventArgs e)
         {
 
         }

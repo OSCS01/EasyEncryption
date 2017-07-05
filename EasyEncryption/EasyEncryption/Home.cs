@@ -325,6 +325,13 @@ namespace EasyEncryption
                 }
             }
         }
+
+        private void contactsbtn_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Contacts cs = new Contacts();
+            cs.Show();
+        }
     }
 }
 
