@@ -16,7 +16,7 @@ namespace EasyEncryption
 {
     public partial class Home : Form
     {
-        string encryptpath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        string encryptpath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\EncryptedTest\\";
         const string username = "Adam";
         const string ipadd = "fe80::a490:812e:e8c9:b261%9";
 
@@ -27,7 +27,7 @@ namespace EasyEncryption
             tabPage1.Controls.Add(selectedFiles);
             tabPage2.Controls.Add(myFiles);
             getMyFiles(username);
-        }
+     }
 
         private void getMyFiles(string username)
         {
