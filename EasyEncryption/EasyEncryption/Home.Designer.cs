@@ -50,7 +50,6 @@
             this.clearBtn = new System.Windows.Forms.Button();
             this.deleteBtn = new System.Windows.Forms.Button();
             this.viewLogsBtn = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -270,19 +269,11 @@
             this.viewLogsBtn.Visible = false;
             this.viewLogsBtn.Click += new System.EventHandler(this.viewLogsBtn_Click);
             // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(98, 665);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(306, 26);
-            this.textBox1.TabIndex = 12;
-            // 
             // Home
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(879, 735);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.viewLogsBtn);
             this.Controls.Add(this.deleteBtn);
             this.Controls.Add(this.clearBtn);
@@ -301,7 +292,6 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -329,6 +319,5 @@
         private System.Windows.Forms.Button clearBtn;
         private System.Windows.Forms.Button deleteBtn;
         private System.Windows.Forms.Button viewLogsBtn;
-        private System.Windows.Forms.TextBox textBox1;
     }
 }
