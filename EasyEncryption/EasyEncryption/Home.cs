@@ -19,7 +19,7 @@ namespace EasyEncryption
         string encryptpath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\EncryptedTest\\";
         const string username = "Adam";
         const string ipadd = "fe80::a490:812e:e8c9:b261%9";
-
+        EasyEncWS.MainService ms = new EasyEncWS.MainService();
 
         public Home()
         {
@@ -27,10 +27,26 @@ namespace EasyEncryption
             tabPage1.Controls.Add(selectedFiles);
             tabPage2.Controls.Add(myFiles);
             getMyFiles(username);
-     }
+
+        }
 
         private void getMyFiles(string username)
         {
+            string xml = ms.retrieve(username);
+            StringReader xr = new StringReader(xml);
+            DataTable dt = new DataTable();
+            dt.ReadXml(xr);
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                DataRow dr = dt.Rows[i];
+                ListViewItem listitem = new ListViewItem(dr["Filename"].ToString());
+                listitem.SubItems.Add(dr["Size"].ToString());
+                listitem.SubItems.Add(dr["SharedGroups"].ToString());
+                listitem.SubItems.Add(dr["Owner"].ToString());
+                myFiles.Items.Add(listitem);
+            }
+            /*
             try
             {
                 myFiles.Items.Clear();
@@ -97,7 +113,7 @@ namespace EasyEncryption
             catch (SocketException e)
             {
                 myFilename.Text = "Error connecting to server";
-            }
+            }*/
         }
 
         private void addItems(FileInfo fi)
@@ -119,6 +135,55 @@ namespace EasyEncryption
 
         private void uploadbtn_Click(object sender, EventArgs e)
         {
+            foreach (ListViewItem item in selectedFiles.Items)
+            {
+                string filepath = item.SubItems[2].Text;
+                FileInfo fi = new FileInfo(filepath);
+                string fileext = fi.Extension;
+                string filename = fi.Name.Substring(0, fi.Name.Length - fileext.Length);
+                using (RSACryptoServiceProvider rsa = new RSACryptoServiceProvider())
+                {
+                    string serverpub = ms.getPubkey();
+                    rsa.FromXmlString(serverpub);
+                    using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider())
+                    {
+                        byte[] key = new byte[32];
+                        byte[] IV = new byte[16];
+                        rng.GetBytes(key);
+                        rng.GetBytes(IV);
+                        using (RijndaelManaged aes = new RijndaelManaged())
+                        {
+                            aes.Mode = CipherMode.CBC;
+                            aes.IV = IV;
+                            aes.Key = key;
+                            using (FileStream fsInput = new FileStream(filepath, FileMode.Open, FileAccess.Read))
+                            {
+                                using (FileStream fsEncrypted = new FileStream(encryptpath + filename + ".ee", FileMode.Create, FileAccess.Write))
+                                {
+                                    ICryptoTransform encryptor = aes.CreateEncryptor();
+                                    using (CryptoStream cryptostream = new CryptoStream(fsEncrypted, encryptor, CryptoStreamMode.Write))
+                                    {
+                                        int bytesread;
+                                        byte[] buffer = new byte[16384];
+                                        while (true)
+                                        {
+                                            bytesread = fsInput.Read(buffer, 0, 16384);
+                                            if (bytesread == 0)
+                                                break;
+                                            cryptostream.Write(buffer, 0, bytesread);
+                                        }
+                                        ms.uploadFiles(filename, fi.Length, "MSEC", username, filename, fi.Extension, Convert.ToBase64String(rsa.Encrypt(aes.Key,false)), Convert.ToBase64String(aes.IV));
+                                        selectedFiles.Items.Clear();
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+
+            /*
             byte[] key = new byte[32];
             byte[] salt = new byte[8];
             using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider())
@@ -199,6 +264,7 @@ namespace EasyEncryption
                 }
             }
             selectedFiles.Items.Clear();
+            */
         }
 
         private void groupsbtn_Click(object sender, EventArgs e)
@@ -257,86 +323,44 @@ namespace EasyEncryption
                 if (savedpath.ShowDialog() == DialogResult.OK)
                 {
                     string decryptpath = savedpath.SelectedPath + "\\";
-                    List<string> files = new List<string>();
-                    List<string> owners = new List<string>();
-                    List<string> sharedGroups = new List<string>();
-                    foreach (ListViewItem item in myFiles.Items)
-                    {
-                        if (item.Checked)
-                        {
-                            files.Add(item.SubItems[0].Text);
-                            owners.Add(item.SubItems[3].Text);
-                            sharedGroups.Add(item.SubItems[2].Text);
-                        }
-
-                    }
-
-                    TcpClient client = new TcpClient(ipadd, 8080);
-                    NetworkStream stream = client.GetStream();
-                    StreamWriter sw = new StreamWriter(stream);
-                    sw.WriteLine("Download");
-                    sw.WriteLine(username);
-                    sw.WriteLine(files.Count);
-                    for (int i = 0; i < files.Count; i++)
-                    {
-                        sw.WriteLine(files[i]);
-                        sw.WriteLine(owners[i]);
-                        sw.WriteLine(sharedGroups[i]);
-                    }
-                    sw.Flush();
-
                     CspParameters csp = new CspParameters();
                     csp.KeyContainerName = "MyEEKeys";
-
                     using (RSACryptoServiceProvider rsa = new RSACryptoServiceProvider(csp))
                     {
-                        StreamReader sr = new StreamReader(stream);
-                        List<FileItem> fil = new List<FileItem>();
-                        FileItem fi = new FileItem();
-                        for (int i = 0; i < files.Count; i++)
+                        foreach (ListViewItem item in myFiles.Items)
                         {
-                            fi.hashedFilename = Encoding.UTF8.GetString(rsa.Decrypt(Convert.FromBase64String(sr.ReadLine()), false));
-                            fi.IV = sr.ReadLine();
-                            fi.Originalfilename = Encoding.UTF8.GetString(rsa.Decrypt(Convert.FromBase64String(sr.ReadLine()), false));
-                            fi.OriginalfileExt = Encoding.UTF8.GetString(rsa.Decrypt(Convert.FromBase64String(sr.ReadLine()), false));
-                            fi.EncKey = sr.ReadLine();
-                            fil.Add(fi);
-                        }
-
-
-                        using (RijndaelManaged AES = new RijndaelManaged())
-                        {
-                            AES.BlockSize = 128;
-                            AES.KeySize = 256;
-                            AES.Mode = CipherMode.CBC;
-
-                            foreach (FileItem fi1 in fil)
+                            if (item.Checked)
                             {
-                                string encfilepath = encryptpath + fi1.hashedFilename + ".ee";
-                                string decfilepath = decryptpath + fi1.Originalfilename + fi1.OriginalfileExt;
-                                byte[] deckey = rsa.Decrypt(Convert.FromBase64String(fi1.EncKey), false);
-
-                                AES.Key = deckey;
-                                AES.IV = Convert.FromBase64String(fi1.IV);
-
-                                using (FileStream fsEncrypted = new FileStream(encfilepath, FileMode.Open, FileAccess.Read))
+                                string[] fileinfo = ms.Download(username,item.SubItems[0].Text, item.SubItems[2].Text, item.SubItems[3].Text);
+                                byte[] deckey = rsa.Decrypt(Convert.FromBase64String(fileinfo[4]), false);
+                                using (RijndaelManaged aes = new RijndaelManaged())
                                 {
-                                    using (FileStream fsDecrypted = new FileStream(decfilepath, FileMode.Create, FileAccess.Write))
+                                    aes.Key = deckey;
+                                    aes.IV = Convert.FromBase64String(fileinfo[1]);
+                                    aes.Mode = CipherMode.CBC;
+
+                                    string encfilepath = encryptpath + fileinfo[0] + ".ee";
+                                    string decfilepath = decryptpath + fileinfo[2] + fileinfo[3];
+
+
+                                    using (FileStream fsEncrypted = new FileStream(encfilepath, FileMode.Open, FileAccess.Read))
                                     {
-                                        ICryptoTransform decryptor = AES.CreateDecryptor();
-                                        using (CryptoStream cryptostream = new CryptoStream(fsDecrypted, decryptor, CryptoStreamMode.Write))
+                                        using (FileStream fsDecrypted = new FileStream(decfilepath, FileMode.Create, FileAccess.Write))
                                         {
-                                            int bytesread;
-                                            byte[] buffer = new byte[16384];
-                                            while (true)
+                                            ICryptoTransform decryptor = aes.CreateDecryptor();
+                                            using (CryptoStream cryptostream = new CryptoStream(fsDecrypted, decryptor, CryptoStreamMode.Write))
                                             {
-                                                bytesread = fsEncrypted.Read(buffer, 0, 16384);
-                                                if (bytesread == 0)
-                                                    break;
-                                                cryptostream.Write(buffer, 0, bytesread);
+                                                int bytesread;
+                                                byte[] buffer = new byte[16384];
+                                                while (true)
+                                                {
+                                                    bytesread = fsEncrypted.Read(buffer, 0, 16384);
+                                                    if (bytesread == 0)
+                                                        break;
+                                                    cryptostream.Write(buffer, 0, bytesread);
+                                                }
                                             }
                                         }
-
                                     }
                                 }
                             }

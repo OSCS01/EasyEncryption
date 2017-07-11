@@ -18,6 +18,7 @@ namespace EasyEncryption
 
         const string ipadd = "fe80::a490:812e:e8c9:b261%9";
         const string user = "Adam";
+        EasyEncWS.MainService ms = new EasyEncWS.MainService();
 
         public LogForm(ListViewItem lvi)
         {
@@ -27,62 +28,21 @@ namespace EasyEncryption
 
         private void retrieveLogs(ListViewItem lvi)
         {
-            TcpClient client = new TcpClient(ipadd, 8080);
-            NetworkStream stream = client.GetStream();
-            StreamWriter sw = new StreamWriter(stream);
-            sw.WriteLine("Logs");
-            sw.WriteLine(lvi.SubItems[0].Text);
-            sw.WriteLine(lvi.SubItems[2].Text);
-            sw.WriteLine(lvi.SubItems[3].Text);
-            sw.WriteLine(user);
-            sw.Flush();
-
-            using (StreamReader sr = new StreamReader(stream))
+            string xml = ms.getLogs(lvi.SubItems[0].Text, lvi.SubItems[3].Text, lvi.SubItems[2].Text);
+            DataTable dt = new DataTable();
+            StringReader sr = new StringReader(xml);
+            dt.ReadXml(sr);
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
-                CspParameters csp = new CspParameters();
-                csp.KeyContainerName = "MyEEKeys";
-                using (RSACryptoServiceProvider rsa = new RSACryptoServiceProvider(csp))
-                {
-                    string base64key = sr.ReadLine();
-                    string base64IV = sr.ReadLine();
-                    string base64xml = sr.ReadToEnd();
-                    byte[] xmlarray = Convert.FromBase64String(base64xml);
-                    byte[] deckey = rsa.Decrypt(Convert.FromBase64String(base64key), false);
-
-                    using (RijndaelManaged aes = new RijndaelManaged())
-                    {
-                        aes.KeySize = 256;
-                        aes.Key = deckey;
-                        aes.IV = Convert.FromBase64String(base64IV);
-                        aes.Mode = CipherMode.CBC;
-                        using (var mems = new MemoryStream(xmlarray))
-                        {
-                            using (var decryptor = aes.CreateDecryptor())
-                            {
-                                using (var cryptostream = new CryptoStream(mems, decryptor, CryptoStreamMode.Read))
-                                {
-                                    byte[] decxml = new byte[xmlarray.Length];
-                                    cryptostream.Read(decxml, 0, decxml.Length);
-                                    string decresult = Encoding.UTF8.GetString(decxml);
-                                    StringReader xr = new StringReader(decresult);
-                                    DataTable dt = new DataTable();
-                                    dt.ReadXml(xr);
-                                    for (int i = 0; i < dt.Rows.Count; i++)
-                                    {
-                                        DataRow dr = dt.Rows[i];
-                                        ListViewItem listitem = new ListViewItem(dr["OriginalFilename"].ToString());
-                                        listitem.SubItems.Add(dr["Owner"].ToString());
-                                        listitem.SubItems.Add(dr["UserDownload"].ToString());
-                                        listitem.SubItems.Add(dr["Date"].ToString());
-                                        listitem.SubItems.Add(dr["sharedGroup"].ToString());
-                                        LogView.Items.Add(listitem);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                DataRow dr = dt.Rows[i];
+                ListViewItem listitem = new ListViewItem(dr["OriginalFilename"].ToString());
+                listitem.SubItems.Add(dr["Owner"].ToString());
+                listitem.SubItems.Add(dr["UserDownload"].ToString());
+                listitem.SubItems.Add(dr["Date"].ToString());
+                listitem.SubItems.Add(dr["sharedGroup"].ToString());
+                LogView.Items.Add(listitem);
             }
         }
     }
 }
+
