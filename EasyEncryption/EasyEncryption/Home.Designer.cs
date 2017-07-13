@@ -36,7 +36,6 @@
             this.UploadBtn = new System.Windows.Forms.Button();
             this.contactsbtn = new System.Windows.Forms.Button();
             this.groupsbtn = new System.Windows.Forms.Button();
-            this.chatbtn = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -58,10 +57,11 @@
             // 
             // AddFiles
             // 
-            this.AddFiles.Location = new System.Drawing.Point(71, 75);
+            this.AddFiles.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.AddFiles.Location = new System.Drawing.Point(75, 63);
             this.AddFiles.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.AddFiles.Name = "AddFiles";
-            this.AddFiles.Size = new System.Drawing.Size(96, 35);
+            this.AddFiles.Size = new System.Drawing.Size(141, 59);
             this.AddFiles.TabIndex = 0;
             this.AddFiles.Text = "Files";
             this.AddFiles.UseVisualStyleBackColor = true;
@@ -109,10 +109,10 @@
             // 
             // contactsbtn
             // 
-            this.contactsbtn.Location = new System.Drawing.Point(270, 75);
+            this.contactsbtn.Location = new System.Drawing.Point(340, 63);
             this.contactsbtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.contactsbtn.Name = "contactsbtn";
-            this.contactsbtn.Size = new System.Drawing.Size(96, 35);
+            this.contactsbtn.Size = new System.Drawing.Size(170, 59);
             this.contactsbtn.TabIndex = 4;
             this.contactsbtn.Text = "Contacts";
             this.contactsbtn.UseVisualStyleBackColor = true;
@@ -120,24 +120,14 @@
             // 
             // groupsbtn
             // 
-            this.groupsbtn.Location = new System.Drawing.Point(485, 75);
+            this.groupsbtn.Location = new System.Drawing.Point(619, 63);
             this.groupsbtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupsbtn.Name = "groupsbtn";
-            this.groupsbtn.Size = new System.Drawing.Size(96, 35);
+            this.groupsbtn.Size = new System.Drawing.Size(158, 59);
             this.groupsbtn.TabIndex = 5;
             this.groupsbtn.Text = "Groups";
             this.groupsbtn.UseVisualStyleBackColor = true;
             this.groupsbtn.Click += new System.EventHandler(this.groupsbtn_Click);
-            // 
-            // chatbtn
-            // 
-            this.chatbtn.Location = new System.Drawing.Point(681, 75);
-            this.chatbtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.chatbtn.Name = "chatbtn";
-            this.chatbtn.Size = new System.Drawing.Size(96, 35);
-            this.chatbtn.TabIndex = 6;
-            this.chatbtn.Text = "Chat";
-            this.chatbtn.UseVisualStyleBackColor = true;
             // 
             // tabControl1
             // 
@@ -290,7 +280,6 @@
             this.Controls.Add(this.DownloadBtn);
             this.Controls.Add(this.Refreshbtn);
             this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.chatbtn);
             this.Controls.Add(this.groupsbtn);
             this.Controls.Add(this.contactsbtn);
             this.Controls.Add(this.UploadBtn);
@@ -313,7 +302,6 @@
         private System.Windows.Forms.Button UploadBtn;
         private System.Windows.Forms.Button contactsbtn;
         private System.Windows.Forms.Button groupsbtn;
-        private System.Windows.Forms.Button chatbtn;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;

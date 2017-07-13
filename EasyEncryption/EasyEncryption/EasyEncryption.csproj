@@ -116,6 +116,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -169,8 +170,51 @@
   <ItemGroup>
     <None Include="Web References\EasyEncWS\MainService.disco" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Images\" />
+    <None Include="Resources\zip-1.png" />
+    <None Include="Resources\zip.png" />
+    <None Include="Resources\xml.png" />
+    <None Include="Resources\xls.png" />
+    <None Include="Resources\txt.png" />
+    <None Include="Resources\svg.png" />
+    <None Include="Resources\search.png" />
+    <None Include="Resources\rtf.png" />
+    <None Include="Resources\psd.png" />
+    <None Include="Resources\premiere.png" />
+    <None Include="Resources\prelude.png" />
+    <None Include="Resources\ppt.png" />
+    <None Include="Resources\png.png" />
+    <None Include="Resources\photoshop.png" />
+    <None Include="Resources\pdf.png" />
+    <None Include="Resources\mp4.png" />
+    <None Include="Resources\mp3.png" />
+    <None Include="Resources\json-file.png" />
+    <None Include="Resources\jpg.png" />
+    <None Include="Resources\javascript.png" />
+    <None Include="Resources\iso.png" />
+    <None Include="Resources\indesign.png" />
+    <None Include="Resources\illustrator.png" />
+    <None Include="Resources\html.png" />
+    <None Include="Resources\groups.png" />
+    <None Include="Resources\flash.png" />
+    <None Include="Resources\fla.png" />
+    <None Include="Resources\fireworks.png" />
+    <None Include="Resources\files.png" />
+    <None Include="Resources\exe.png" />
+    <None Include="Resources\dwg.png" />
+    <None Include="Resources\dreamweaver.png" />
+    <None Include="Resources\doc.png" />
+    <None Include="Resources\defaultfile.png" />
+    <None Include="Resources\dbf.png" />
+    <None Include="Resources\csv.png" />
+    <None Include="Resources\css.png" />
+    <None Include="Resources\contacts.png" />
+    <None Include="Resources\bridge.png" />
+    <None Include="Resources\avi.png" />
+    <None Include="Resources\audition.png" />
+    <None Include="Resources\ai.png" />
+    <None Include="Resources\after-effects.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
