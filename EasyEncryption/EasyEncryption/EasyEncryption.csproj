@@ -169,5 +169,8 @@
   <ItemGroup>
     <None Include="Web References\EasyEncWS\MainService.disco" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Images\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
